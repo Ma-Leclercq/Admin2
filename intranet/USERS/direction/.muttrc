@@ -1,0 +1,12 @@
+set from="mathieu@mmes-1.ephec-ti.be"
+set ssl_starttls=no
+set ssl_force_tls=no
+set smtp_url = "smtp://mail.mmes-1.ephec-ti.be:25"
+
+# Imap settings
+set spoolfile="imap://mathieu@mail.mmes-1.ephec-ti.be/"
+set imap_user = "mathieu@mmes-1.ephec-ti.be"
+set imap_pass = "Mathieu"
+set folder = "imap://mathieu@mail.mmes-1.ephec-ti.be/"
+
+set editor = "nano"
