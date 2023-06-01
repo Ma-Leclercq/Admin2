@@ -1,0 +1,120 @@
+version: '2'
+
+services:
+  resolver:
+    build:
+      context: ./RESOLVER
+      dockerfile: Dockerfile
+    ports:
+      - "54:54/tcp"
+      - "54:54/udp"
+    networks:
+      local:
+        ipv4_address: 172.16.0.6     
+    volumes:
+      - ./RESOLVER/named.conf:/etc/bind/named.conf
+    container_name: resolver
+
+  soa-in:
+    build:
+      context: ./SOA
+      dockerfile: Dockerfile
+    networks:
+      local:
+        ipv4_address: 172.16.0.3
+    volumes:
+      - ./SOA/named.conf:/etc/bind/named.conf
+      - ./SOA/intranet.mmes-1.ephec-ti.be:/etc/bind/intranet.mmes-1.ephec-ti.be
+    container_name: SOA-interne
+    dns:
+      - 172.16.0.6
+  
+  web-in:
+    build:
+      context: ./WEB
+      dockerfile: Dockerfile
+    networks:
+      local:
+        ipv4_address: 172.16.0.4
+    volumes:
+      - ./index.html /var/www/html/
+      - ./intranet.conf /etc/apache2/sites-available/000-default.conf
+    container_name: WEB-interne
+    dns:
+      - 172.16.0.6
+
+  direction:
+    build:
+      context: ./USERS/direction
+      dockerfile: Dockerfile
+    networks:
+      local:
+        ipv4_address: 172.16.0.26
+    container_name: direction_container
+    dns:
+      - 172.16.0.6
+
+  atelier:
+    build:
+      context: ./USERS/atelier
+      dockerfile: Dockerfile
+    networks:
+      local:
+        ipv4_address: 172.16.0.25
+    container_name: atelier_container
+    dns:
+      - 172.16.0.6
+
+  commerciaux:
+    build:
+      context: ./USERS/commerciaux
+      dockerfile: Dockerfile
+    networks:
+      local:
+        ipv4_address: 172.16.0.24
+    container_name: commerciaux_container
+    dns:
+      - 172.16.0.6
+
+  compta:
+    build:
+      context: ./USERS/compta
+      dockerfile: Dockerfile
+    networks:
+      local:
+        ipv4_address: 172.16.0.23
+    container_name: compta_container
+    dns:
+      - 172.16.0.6
+
+  hangar:
+    build:
+      context: ./USERS/hangar
+      dockerfile: Dockerfile
+    networks:
+      local:
+        ipv4_address: 172.16.0.22
+    container_name: hangar_container
+    dns:
+      - 172.16.0.6
+
+  secretariat:
+    build:
+      context: ./USERS/secretariat
+      dockerfile: Dockerfile
+    networks:
+      local:
+        ipv4_address: 172.16.0.21
+    container_name: secretariat_container
+    dns:
+      - 172.16.0.6
+
+
+
+networks:
+  local:
+      ipam:
+          driver: default
+          config:
+              - subnet: 172.16.0.0/24
+                gateway: 172.16.0.1
