@@ -1,5 +1,5 @@
 <?php
-$mysqli = new mysqli("172.17.0.4:3306",'root','Frimouche','woodytoys_db');
+$mysqli = new mysqli("172.17.0.5:3306",'web','Frimouche123','woodytoys_db');
 
 // Check connection
 if ($mysqli -> connect_errno) {
